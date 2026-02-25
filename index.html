@@ -9,6 +9,28 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital@0;1&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
  <style>
+    .gallery-conclusion{
+  max-width:900px;
+  margin-top:50px;
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  line-height:1.7;
+  opacity:0.9;
+}
+  /* Smooth Reveal Animation */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 1.2s ease, transform 1.2s ease;
+}
+
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
+  .gallery-conclusion{
+  font-style:italic;
+}
   .member-grid{
   display:flex;
   flex-wrap:wrap;
@@ -617,6 +639,17 @@ Although students share the same educational setting, each individual experience
     <img src="class.jpg.jpeg" onclick="openModal(3)">
     <img src="library.jpg.jpeg" onclick="openModal(4)">
   </div>
+  <div class="gallery-conclusion reveal">
+    <p>
+      Our campus collection captures everyday academic moments, yet each image carries its own distinct meaning. 
+      Through differentiation, we identify how composition, perspective, and subject focus separate one scene 
+      from another—whether it highlights independent study, collaboration, or classroom interaction. 
+      Through evaluation, we assess how effectively these visual elements communicate the atmosphere, purpose, 
+      and identity of campus life. Together, the images show that ordinary spaces become meaningful visual texts 
+      when examined with critical awareness and thoughtful interpretation.
+    </p>
+  </div>
+
 </section>
 
 <div id="modal">
@@ -653,7 +686,16 @@ window.addEventListener("scroll",()=>{
     }
   });
 });
+/* Reveal elements like gallery conclusion */
+const revealElements = document.querySelectorAll(".reveal");
 
+window.addEventListener("scroll", () => {
+  revealElements.forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+      el.classList.add("show");
+    }
+  });
+});
 function scrollToSection(id){
   document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
@@ -916,4 +958,5 @@ setInterval(createStar, 1200);
 </script>
 
 </body>
+
 </html>
