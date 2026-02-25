@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Group 3 RVA | Lumina Libri </title>
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital@0;1&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+ <style>
+  .member-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:30px;
+  justify-content:center;
+}
+
+.member-card{
+  width:220px;
+  text-align:center;
+}
+
+  .profile-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.profile-content{
+  width:420px;
+  padding:40px;
+  border-radius:20px;
+
+  background:rgba(15,18,45,0.85);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  text-align:center;
+  position:relative;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.6),
+    0 0 40px rgba(62,107,255,0.25);
+
+  animation:fadeUp 0.4s ease;
+}
+
+.profile-content img{
+  width:200px;
+  height:200px;
+  object-fit:cover;
+  border-radius:16px;
+
+  margin-bottom:25px;
+
+  box-shadow:0 20px 40px rgba(0,0,0,0.5);
+}
+#modalName{
+  font-size:26px;
+  font-weight:700;
+  margin-bottom:8px;
+  color:#58C6FF;
+}
+
+#modalRole{
+  font-size:15px;
+  opacity:0.7;
+  margin-bottom:18px;
+  letter-spacing:1px;
+}
+
+#modalQuote{
+  font-size:16px;
+  line-height:1.6;
+  font-style:italic;
+  opacity:0.85;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,0.15);
+}
+
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  font-size:22px;
+  color:white;
+  cursor:pointer;
+}
+
+.left{ left:-30px; }
+.right{ right:-30px; }
+
+.close-btn{
+  position:absolute;
+  top:8px;
+  right:12px;
+  cursor:pointer;
+}
+
+.logo-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  border-radius:50%;
+  box-shadow:0 0 15px rgba(62,107,255,0.5);
+}
+
+/* ================= THEME COLORS ================= */
+:root{
+  --dark-bg:#0B0F2A;
+  --indigo:#1C1F4A;
+  --electric-blue:#3E6BFF;
+  --cyan:#58C6FF;
+  --violet:#6A4BFF;
+}
+
+/* ================= GLOBAL ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+}
+/* ================= GLOBAL ================= */
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+body{
+ font-family:'Cinzel',serif;
+  background:var(--dark-bg);
+  color:var(--cyan);
+  overflow-x:hidden;
+  position:relative;
+}
+/* Museum paper texture */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("bluesky.jpg");
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  opacity:0.50;
+  z-index:-3;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Hero animations front page */
+
+.hero{
+  animation:heroFade 1.2s ease forwards;
+}
+
+.hero h1{
+  opacity:0;
+  transform:translateY(40px);
+  animation:titleSlide 1s ease forwards;
+  animation-delay:0.3s;
+}
+
+.hero p{
+  opacity:0;
+  transform:translateY(30px);
+  animation:titleSlide 1s ease forwards;
+  animation-delay:0.6s;
+}
+
+@keyframes heroFade{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes titleSlide{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.background-effects{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+
+.dust-container,
+.stars-container{
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+
+/* DUST */
+/* SPACE DUST */
+.dust{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  animation:floatDust linear infinite;
+}
+
+/* Small distant dust */
+.dust.small{
+  width:2px;
+  height:2px;
+  background:rgba(120,220,255,0.5);
+  box-shadow:0 0 6px rgba(120,220,255,0.8);
+}
+
+/* Medium floating particles */
+.dust.medium{
+  width:4px;
+  height:4px;
+  background:rgba(88,198,255,0.7);
+  box-shadow:0 0 12px rgba(88,198,255,1);
+}
+
+/* Big closer glow particles */
+.dust.large{
+  width:7px;
+  height:7px;
+  background:rgba(160,240,255,0.9);
+  box-shadow:0 0 25px rgba(88,198,255,1);
+}
+
+@keyframes floatDust{
+  0%{
+    transform:translateY(100vh) translateX(0);
+    opacity:0;
+  }
+  10%{opacity:1;}
+  50%{opacity:0.8;}
+  100%{
+    transform:translateY(-20vh) translateX(60px);
+    opacity:0;
+  }
+}
+
+/* SHOOTING STARS */
+.shooting-star{
+  position:absolute;
+  width:3px;
+  height:100px;
+  background:linear-gradient(-45deg, rgba(88,198,255,1), transparent);
+  border-radius:50px;
+  transform:rotate(45deg);
+  opacity:0;
+  box-shadow:0 0 20px rgba(88,198,255,0.8);
+  animation:shoot linear infinite;
+}
+
+@keyframes shoot{
+  0%{
+    opacity:1;
+    transform:translateX(0) translateY(0) rotate(45deg);
+  }
+  100%{
+    opacity:0;
+    transform:translateX(-800px) translateY(800px) rotate(45deg);
+  }
+}
+  
+
+
+
+
+
+html{
+  scroll-behavior:smooth;
+}
+/* Section reveal animation */
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px) scale(0.95);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* Header */
+header{
+  position:fixed;
+  width:100%;
+  top:0;
+  padding:18px 50px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  background:rgba(15,18,45,0.6);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+
+  border-bottom:1px solid rgba(88,198,255,0.3);
+  box-shadow:0 8px 30px rgba(0,0,0,0.4);
+  z-index:1000;
+  transition:0.4s ease;
+}
+/* Sections */
+section{
+  min-height:100vh;
+  padding:120px 40px 80px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+
+  opacity:0;
+  transform:translateY(80px) scale(0.95);
+  transition:all 1s cubic-bezier(.17,.67,.32,1.05);
+}
+
+section.show{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+/* Hero */
+#home{position:relative;overflow:hidden;color:white;}
+#home::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("blue.jpg") center/cover no-repeat;
+  animation:slowZoom 25s ease-in-out infinite alternate;
+  filter:brightness(1.3) contrast(1.1) saturate(1.15);
+  z-index:2;
+}
+#home::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.20);
+}
+@keyframes slowZoom{from{transform:scale(1);}to{transform:scale(1.15);}}
+.hero{max-width:800px;z-index:2;}
+.hero h2{
+  font-size:55px;
+  animation:fadeHero 2s ease forwards;
+  opacity:0;
+}
+
+.hero p{
+  animation:fadeHero 2s ease forwards 0.6s;
+  opacity:0;
+}
+
+@keyframes fadeHero{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+}
+/* About */
+#about{max-width:900px;font-family:'Playfair Display',serif;font-size:20px;line-height:1.6;}
+/* Members */
+.member-card{
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(8px);
+  padding:20px;
+  border:1px solid rgba(88,198,255,0.4);
+  width:220px;
+  transition:0.4s ease;
+  transform-style:preserve-3d;
+  perspective:1000px;
+  cursor:pointer;
+}
+
+.member-card:hover{
+  transform:rotateY(8deg) rotateX(5deg) scale(1.05);
+  box-shadow:0 20px 40px rgba(0,0,0,0.5);
+}
+.member-card img{
+  width:100%;
+  border-radius:8px;
+  transition:0.4s ease;
+}
+
+.member-card:hover img{
+  transform:scale(1.08);
+  filter:brightness(1.1);
+}
+
+/* Gallery */
+.gallery-grid img{
+   width:220px;
+  height:160px;
+  object-fit:cover;
+
+  border:1px solid rgba(62,107,255,0.6);
+  transition:all 0.4s ease;
+
+  filter: contrast(1.05) brightness(1.05);
+  backface-visibility:hidden;
+}
+
+.gallery-grid img:hover{
+  transform:scale(1.08);
+  box-shadow:0 20px 50px rgba(62,107,255,0.6);
+  filter: contrast(1.15) brightness(1.1) saturate(1.15);
+}
+.gallery-grid{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:25px;
+  margin-top:40px;
+  flex-wrap:nowrap;   /* 🔥 prevents wrapping */
+}
+
+/* Modal */
+#modal{position:fixed;inset:0;background:url("sea anime.jpg") center/cover no-repeat;display:none;justify-content:center;align-items:center;z-index:2000;animation:fadeIn 0.3s ease;}
+#modal::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.55);pointer-events:none;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.modal-content{width:95vw;height:95vh;display:flex;background:transparent;border-radius:10px;overflow:hidden;position:relative;z-index:2;}
+.modal-content img{
+  width:65%;
+  height:100%;
+  object-fit:cover; /* fills properly, no empty blur space */
+
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+
+  opacity:0;
+  transform:scale(1.02); /* reduce zoom blur */
+  transition:opacity 0.6s ease, transform 0.8s ease;
+
+  filter: contrast(1.1) brightness(1.05) saturate(1.1);
+}
+.modal-content img{
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.6),
+    0 0 40px rgba(88,198,255,0.3);
+  border-radius:12px;
+}
+/* Active image animation */
+.modal-content img.show{
+  opacity:1;
+  transform:scale(1);
+}
+.modal-text{width:35%;background:transparent;padding:30px;font-family:'Playfair Display',serif;text-align:left;overflow-y:auto;color:white;position:relative;}
+.modal-text h3{font-size:28px;margin-bottom:20px;font-weight:bold;color:#58C6FF;
+  text-shadow:0 0 10px rgba(88,198,255,0.6);}
+.modal-text p{font-size:18px;line-height:1.6;}
+.close{position:absolute;top:20px;right:30px;color:#ff4d6d;font-size:35px;cursor:pointer;z-index:3;}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);font-size:40px;color:#ff4d6d;cursor:pointer;padding:20px;user-select:none;z-index:3;}
+.prev{left:20px;} .next{right:20px;}
+.nav-btn:hover{color:#fff;}
+/* Interaction */
+.exhibit-note{
+  margin-top:30px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,0.3);
+  font-size:14px;
+  opacity:0.8;
+  letter-spacing:1px;
+}
+/* Responsive */
+@media(max-width:768px){.modal-content{flex-direction:column;}.modal-content img,.modal-text{width:100%;}}
+footer{padding:20px;text-align:center;background:#11153A;}
+
+body::after{
+  content:"";
+  position:fixed;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(62,107,255,0.4), transparent 70%);
+  top:20%;
+  left:60%;
+  filter:blur(120px);
+  animation:glowMove 12s infinite alternate ease-in-out;
+  z-index:-2;
+}
+
+@keyframes glowMove{
+  from{transform:translate(0,0);}
+  to{transform:translate(-200px,100px);}
+}
+body::after{
+  content:"";
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,150,255,0.15), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(0,200,255,0.1), transparent 50%);
+  pointer-events:none;
+  z-index:-1;
+}
+</style>
+</head>
+<body>
+
+
+<div class="background-effects">
+  <div class="dust-container"></div>
+  <div class="stars-container"></div>
+</div>
+<header>
+<h1 class="logo-title">
+  <img src="psu.webp" alt="PSU Logo" class="logo">
+  Lumina Libri
+</h1>
+  <nav>
+    <a onclick="scrollToSection('home')">Home</a>
+    <a onclick="scrollToSection('about')">About</a>
+    <a onclick="scrollToSection('members')">Members</a>
+    <a onclick="scrollToSection('gallery')">Gallery</a>
+  </nav>
+</header>
+
+<section id="home">
+  <div class="hero">
+   
+    <h2>Welcome To Our Website</h2>
+    <p>Preserving memories through a timeless lens.</p>
+  </div>
+</section>
+
+<section id="about">
+  <h2>About Our Website</h2>
+  <p>This website presents a visual exploration of Differentiation within the school environment. Through carefully captured photographs taken around our campus, we illustrate the various differences that exist in everyday academic life such as diverse learning styles, perspectives, behaviors, emotions, and interactions.
+Although students share the same educational setting, each individual experiences and interprets their surroundings in unique ways. By showcasing these variations, the website emphasizes the importance of diversity, individuality, and connection within a unified school community.</p>
+</section>
+
+<section id="members">
+  <h2>Our Members</h2>
+ <div class="member-grid">
+
+  <div class="member-card" onclick="openProfile(0)">
+    <img src="dave.jpg.jpg">
+    <p>Cruz, Dave Adrian Guevara</p>
+  </div>
+
+  <div class="member-card" onclick="openProfile(1)">
+    <img src="alena.jpg.png">
+    <p>Doqueza,Alena Anele Lee
+</p>
+  </div>
+
+  <div class="member-card" onclick="openProfile(2)">
+    <img src="pat.jpg">
+    <p>Miguel, James Patrick T.</p>
+  </div>
+
+  <div class="member-card" onclick="openProfile(3)">
+    <img src="mikee.jpg">
+    <p>Roquero,Mikee Jean Alfante</p>
+  </div>
+
+  <div class="member-card" onclick="openProfile(4)">
+    <img src="troy.jpg.jpeg">
+    <p>Palma, Troy Hiltone C.
+</p>
+  </div>
+
+  <div class="member-card" onclick="openProfile(5)">
+    <img src="sunshine.jpg">
+    <p>Sunshine, Soriano S.
+</p>
+  </div>
+
+  <div class="member-card" onclick="openProfile(6)">
+    <img src="esmeli.jpeg">
+    <p>Camaso,Esmeli Tabucol</p>
+  </div>
+
+  <div class="member-card" onclick="openProfile(7)">
+    <img src="armando.jpg.jpg">
+    <p>Ambrosio,Armando De Luna</p>
+  </div>
+
+</div>
+</section>
+
+<section id="gallery">
+  <h2>Campus Collection</h2>
+  <div class="gallery-grid">
+    <img src="hallway.jpg.jpeg" onclick="openModal(0)">
+    <img src="book.jpg.jpeg" onclick="openModal(1)">
+    <img src="study.jpg.jpeg" onclick="openModal(2)">
+    <img src="class.jpg.jpeg" onclick="openModal(3)">
+    <img src="library.jpg.jpeg" onclick="openModal(4)">
+  </div>
+</section>
+
+<div id="modal">
+  <span class="close" onclick="closeModal()">✖</span>
+  <span class="nav-btn prev" onclick="prevImage()">❮</span>
+  <span class="nav-btn next" onclick="nextImage()">❯</span>
+
+  <div class="modal-content">
+    <img id="modalImg">
+
+    <div class="modal-text">
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+
+      <div class="exhibit-note">
+        <p><em>Part of the Group 3 RVA Gallary</em></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer>© 2026 Group 3 RVA | Mai is my WIFE</footer>
+
+
+<script>
+  document.documentElement.style.scrollBehavior = "smooth";
+/* Reveal sections */
+const sections=document.querySelectorAll("section");
+window.addEventListener("scroll",()=>{
+  sections.forEach(sec=>{
+    if(sec.getBoundingClientRect().top<window.innerHeight-100){
+      sec.classList.add("show");
+    }
+  });
+});
+
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+
+
+/* Gallery data */
+const galleryData = [
+{ 
+    img:"hallway.jpg.jpeg",
+    title:"Where Paths Intersect",
+    desc:`In this photograph, the students are walking along the hallways, each with a different pace, posture, and their own destination. Some may be rushing to get to their class; the others are walking calmly or talking with their friends, showing differentiation in personality, mood, and purpose. Despite these differences, they are connected by their shared journey of education.`
+  },
+
+  { 
+    img:"book.jpg.jpeg",
+    title:"Bound By Knowledge",
+    desc:`Captured in this scene are various books that are placed together, each covering a different subject. The difference in size, color, and content represents differentiation; all the books serve one common purpose, and that is sharing knowledge.`
+  }
+  ,
+  { 
+    img:"study.jpg.jpeg",
+    title:"Where Talent Meets Effort",
+    desc:`This photo shows one student appears to be confident and active, being able to lead the discussion and explaining the lesson, while the other seems to struggle, listening carefully and trying to understand the lesson. Their academic abilities show clear differentiation between them. However, their idea to study together represents connection. The stronger student offers guidance, while the struggling student shows effort and determination.`
+  },
+  { 
+    img:"class.jpg.jpeg",
+    title:"Many Minds, One Lesson",
+    desc:`In this photo, all of the students are listening to the same discussion, but each processes the lesson differently. Some may look curious; others are serious or thoughtful. They're all showing differentiation in understanding, perspective, and personality. Despite all of these differences, they are all connected by one teacher and one topic.`
+  },
+  { 
+    img:"library.jpg.jpeg",
+    title:"Different Roles, One Goal",
+    desc:`In this photo, the students are working together on their group activity task, but each member has their own different roles. Their skills, ideas, and personalities may differ. However, they are all connected by their shared objective, which is completing their project perfectly and successfully.`
+  }
+
+
+
+ 
+];
+
+let currentIndex=0;
+let touchStartX=0;
+let touchEndX=0;
+
+/* Open modal */
+function openModal(index){
+  currentIndex=index;
+  updateModal();
+  document.getElementById("modal").style.display="flex";
+}
+
+/* Update modal with cinematic animation */
+function updateModal(){
+  const img=document.getElementById("modalImg");
+  const title=document.getElementById("modalTitle");
+  const desc=document.getElementById("modalDesc");
+
+  img.classList.remove("show");
+
+  setTimeout(()=>{
+    img.src=galleryData[currentIndex].img;
+    title.innerText=galleryData[currentIndex].title;
+    desc.innerText=galleryData[currentIndex].desc;
+    img.classList.add("show");
+  },200);
+}
+
+/* Close modal */
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+/* Next / Prev */
+function nextImage(){
+  currentIndex=(currentIndex+1)%galleryData.length;
+  updateModal();
+}
+
+function prevImage(){
+  currentIndex=(currentIndex-1+galleryData.length)%galleryData.length;
+  updateModal();
+}
+
+/* ===============================
+   KEYBOARD NAVIGATION
+================================ */
+document.addEventListener("keydown",(e)=>{
+  const modal=document.getElementById("modal");
+  if(modal.style.display==="flex"){
+    if(e.key==="ArrowRight") nextImage();
+    if(e.key==="ArrowLeft") prevImage();
+    if(e.key==="Escape") closeModal();
+  }
+});
+
+/* ===============================
+   TOUCH SWIPE SUPPORT (Mobile)
+================================ */
+const modal=document.getElementById("modal");
+
+modal.addEventListener("touchstart",(e)=>{
+  touchStartX=e.changedTouches[0].screenX;
+});
+
+modal.addEventListener("touchend",(e)=>{
+  touchEndX=e.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe(){
+  const threshold=50;
+  if(touchEndX < touchStartX - threshold){
+    nextImage();   // Swipe Left → Next
+  }
+  if(touchEndX > touchStartX + threshold){
+    prevImage();   // Swipe Right → Previous
+  }
+}
+/* ===============================
+   MEMBERS PROFILE DATA
+================================ */
+
+const members = [
+  {img:"dave.jpg.jpg", name:"Dave Adrian Guevara", role:"Project Leader", quote:"Hard work beats talent."},
+  {img:"alena.jpg.png", name:"Alena Anele Lee Doqueza", role:"Content Editor", quote:"Knowledge is power."},
+  {img:"pat.jpg", name:"James Patrick T. Miguel", role:"Web Developer/ UI/UX Designer", quote:"Creativity speaks louder than words."},
+  {img:"mikee.jpg", name:"Mikee Jean Alfante Roquero", role:"Editor", quote:"Details make perfection."},
+  {img:"troy.jpg.jpeg", name:"Troy Hiltone C. Palma", role:"Photo Editor/Photographer", quote:"Preserving moments forever."},
+  {img:"sunshine.jpg", name:"Soriano S. Sunshine", role:"Photographer", quote:"Confidence creates impact."},
+  {img:"esmeli.jpeg", name:"Esmeli Tabucol", role:"Researcher", quote:"Code is poetry."},
+  {img:"armando.jpg.jpg", name:"Armando De Luna Ambrosio", role:"Researcher", quote:"Teamwork builds success."}
+];
+
+let currentProfileIndex = 0;
+
+function openProfile(index){
+  currentProfileIndex = index;
+  updateProfile();
+  document.getElementById("profileModal").style.display = "flex";
+}
+
+function updateProfile(){
+  document.getElementById("profileImg").src = members[currentProfileIndex].img;
+  document.getElementById("modalName").innerText = members[currentProfileIndex].name;
+  document.getElementById("modalRole").innerText = members[currentProfileIndex].role;
+  document.getElementById("modalQuote").innerText = members[currentProfileIndex].quote;
+}
+
+function closeProfile(){
+  document.getElementById("profileModal").style.display = "none";
+}
+
+function nextProfile(){
+  currentProfileIndex = (currentProfileIndex + 1) % members.length;
+  updateProfile();
+}
+
+function prevProfile(){
+  currentProfileIndex = (currentProfileIndex - 1 + members.length) % members.length;
+  updateProfile();
+}
+
+function outsideClick(event){
+  if(event.target.id === "profileModal"){
+    closeProfile();
+  }
+}
+/* ===============================
+   KEYBOARD FOR MEMBER POPUP
+================================ */
+document.addEventListener("keydown", function(e){
+
+  const profileModal = document.getElementById("profileModal");
+
+  if(profileModal.style.display === "flex"){
+
+    if(e.key === "ArrowRight"){
+      nextProfile();
+    }
+
+    if(e.key === "ArrowLeft"){
+      prevProfile();
+    }
+
+    if(e.key === "Escape"){
+      closeProfile();
+    }
+
+  }
+
+});
+
+</script>
+
+
+<div id="profileModal" class="profile-modal" onclick="outsideClick(event)">
+  <div class="profile-content">
+    <span class="close-btn" onclick="closeProfile()">×</span>
+
+    <button class="arrow left" onclick="prevProfile()">❮</button>
+    <button class="arrow right" onclick="nextProfile()">❯</button>
+
+<img id="profileImg">
+
+    <h3 id="modalName"></h3>
+<p id="modalRole"></p>
+<p id="modalQuote"></p>
+  </div>
+</div>
+
+<script>
+
+/* DUST */
+
+
+function createDust(){
+  const dust = document.createElement("div");
+  dust.classList.add("dust");
+
+  // Random depth type
+  const types = ["small","medium","large"];
+  const randomType = types[Math.floor(Math.random()*types.length)];
+  dust.classList.add(randomType);
+
+  dust.style.left = Math.random() * window.innerWidth + "px";
+  dust.style.top = window.innerHeight + "px";
+
+  dust.style.animationDuration = (Math.random()*15 + 12) + "s";
+
+  document.querySelector(".dust-container").appendChild(dust);
+
+  setTimeout(()=> dust.remove(), 30000);
+}
+
+// More particles for stronger space feel
+setInterval(createDust, 150);
+
+
+
+/* STARS */
+function createStar(){
+  if(window.scrollY < window.innerHeight - 50){
+      return; }
+  const star = document.createElement("div");
+  star.classList.add("shooting-star");
+
+  star.style.top = Math.random() * window.innerHeight + "px";
+  star.style.left = Math.random() * window.innerWidth + "px";
+
+  star.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+  document.querySelector(".stars-container").appendChild(star);
+
+  setTimeout(()=> star.remove(), 3000);
+}
+
+setInterval(createStar, 1200);
+
+</script>
+
+</body>
+</html>
