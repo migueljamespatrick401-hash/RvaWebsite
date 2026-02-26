@@ -231,82 +231,21 @@ body::before{
   z-index:1;
 }
 
-.dust-container,
-.stars-container{
-  position:absolute;
-  width:100%;
-  height:100%;
-}
 
-/* DUST */
-/* SPACE DUST */
-.dust{
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
-  animation:floatDust linear infinite;
-}
 
-/* Small distant dust */
-.dust.small{
-  width:2px;
-  height:2px;
-  background:rgba(120,220,255,0.5);
-  box-shadow:0 0 6px rgba(120,220,255,0.8);
-}
 
-/* Medium floating particles */
-.dust.medium{
-  width:4px;
-  height:4px;
-  background:rgba(88,198,255,0.7);
-  box-shadow:0 0 12px rgba(88,198,255,1);
-}
 
-/* Big closer glow particles */
-.dust.large{
-  width:7px;
-  height:7px;
-  background:rgba(160,240,255,0.9);
-  box-shadow:0 0 25px rgba(88,198,255,1);
-}
 
-@keyframes floatDust{
-  0%{
-    transform:translateY(100vh) translateX(0);
-    opacity:0;
-  }
-  10%{opacity:1;}
-  50%{opacity:0.8;}
-  100%{
-    transform:translateY(-20vh) translateX(60px);
-    opacity:0;
-  }
-}
 
-/* SHOOTING STARS */
-.shooting-star{
-  position:absolute;
-  width:3px;
-  height:100px;
-  background:linear-gradient(-45deg, rgba(88,198,255,1), transparent);
-  border-radius:50px;
-  transform:rotate(45deg);
-  opacity:0;
-  box-shadow:0 0 20px rgba(88,198,255,0.8);
-  animation:shoot linear infinite;
-}
 
-@keyframes shoot{
-  0%{
-    opacity:1;
-    transform:translateX(0) translateY(0) rotate(45deg);
-  }
-  100%{
-    opacity:0;
-    transform:translateX(-800px) translateY(800px) rotate(45deg);
-  }
-}
+
+
+
+
+
+
+
+
   
 
 
@@ -548,10 +487,6 @@ body::after{
 </head>
 <body>
 
-
-<div class="background-effects">
-  <div class="dust-container"></div>
-  <div class="stars-container"></div>
 </div>
 <header>
 <h1 class="logo-title">
@@ -907,56 +842,13 @@ document.addEventListener("keydown", function(e){
   </div>
 </div>
 
-<script>
-
-/* DUST */
-
-
-function createDust(){
-  const dust = document.createElement("div");
-  dust.classList.add("dust");
-
-  // Random depth type
-  const types = ["small","medium","large"];
-  const randomType = types[Math.floor(Math.random()*types.length)];
-  dust.classList.add(randomType);
-
-  dust.style.left = Math.random() * window.innerWidth + "px";
-  dust.style.top = window.innerHeight + "px";
-
-  dust.style.animationDuration = (Math.random()*15 + 12) + "s";
-
-  document.querySelector(".dust-container").appendChild(dust);
-
-  setTimeout(()=> dust.remove(), 30000);
-}
-
-// More particles for stronger space feel
-setInterval(createDust, 150);
 
 
 
-/* STARS */
-function createStar(){
-  if(window.scrollY < window.innerHeight - 50){
-      return; }
-  const star = document.createElement("div");
-  star.classList.add("shooting-star");
 
-  star.style.top = Math.random() * window.innerHeight + "px";
-  star.style.left = Math.random() * window.innerWidth + "px";
 
-  star.style.animationDuration = (Math.random() * 2 + 2) + "s";
-
-  document.querySelector(".stars-container").appendChild(star);
-
-  setTimeout(()=> star.remove(), 3000);
-}
-
-setInterval(createStar, 1200);
-
-</script>
 
 </body>
 
 </html>
+
