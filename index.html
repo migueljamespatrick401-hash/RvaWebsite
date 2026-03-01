@@ -521,7 +521,7 @@ footer{
 <section id="home">
   <div class="hero">
    
-    <h2>LIMINA LIBRI</h2>
+    <h2>LUMINA LIBRI</h2>
     <p>Differentiation and Evaluation </p>
   </div>
 </section>
@@ -530,6 +530,27 @@ footer{
   <h2>About Our Website</h2>
   <p>This website presents a visual exploration of Differentiation within the school environment. Through carefully captured photographs taken around our campus, we illustrate the various differences that exist in everyday academic life such as diverse learning styles, perspectives, behaviors, emotions, and interactions.
 Although students share the same educational setting, each individual experiences and interprets their surroundings in unique ways. By showcasing these variations, the website emphasizes the importance of diversity, individuality, and connection within a unified school community.</p>
+</section>
+
+ <section id="gallery">
+  <h2>Campus Collection</h2>
+  <div class="gallery">
+    <img src="hallway.jpg.jpeg" onclick="openModal(0)">
+    <img src="book.jpg.jpeg" onclick="openModal(1)">
+    <img src="study.jpg.jpeg" onclick="openModal(2)">
+    <img src="class.jpg.jpeg" onclick="openModal(3)">
+    <img src="library.jpg.jpeg" onclick="openModal(4)">
+  </div>
+  <div class="gallery-conclusion reveal">
+  <p>
+    Our campus collection captures everyday academic moments, yet each image carries its own distinct meaning. 
+    Through differentiation, we identify how composition, perspective, and subject focus separate one scene 
+    from another—whether it highlights independent study, collaboration, or classroom interaction. 
+    Through evaluation, we assess how effectively these visual elements communicate the atmosphere, purpose, 
+    and identity of campus life. Together, the images show that ordinary spaces become meaningful visual texts 
+    when examined with critical awareness and thoughtful interpretation.
+  </p>
+</div>
 </section>
 
 <section id="members">
@@ -542,7 +563,7 @@ Although students share the same educational setting, each individual experience
   </div>
 
   <div class="member-card" onclick="openProfile(1)">
-    <img src="alena.jpg.png">
+    <img src="alena.jfif">
     <p>Doqueza,Alena Anele Lee
 </p>
   </div>
@@ -579,27 +600,6 @@ Although students share the same educational setting, each individual experience
     <p>Ambrosio,Armando De Luna</p>
   </div>
 
-</div>
-</section>
-
-<section id="gallery">
-  <h2>Campus Collection</h2>
-  <div class="gallery">
-    <img src="hallway.jpg.jpeg" onclick="openModal(0)">
-    <img src="book.jpg.jpeg" onclick="openModal(1)">
-    <img src="study.jpg.jpeg" onclick="openModal(2)">
-    <img src="class.jpg.jpeg" onclick="openModal(3)">
-    <img src="library.jpg.jpeg" onclick="openModal(4)">
-  </div>
-  <div class="gallery-conclusion reveal">
-  <p>
-    Our campus collection captures everyday academic moments, yet each image carries its own distinct meaning. 
-    Through differentiation, we identify how composition, perspective, and subject focus separate one scene 
-    from another—whether it highlights independent study, collaboration, or classroom interaction. 
-    Through evaluation, we assess how effectively these visual elements communicate the atmosphere, purpose, 
-    and identity of campus life. Together, the images show that ordinary spaces become meaningful visual texts 
-    when examined with critical awareness and thoughtful interpretation.
-  </p>
 </div>
 </section>
 
@@ -772,7 +772,7 @@ function handleSwipe(){
 
 const members = [
   {img:"dave.jpg.jpg", name:"Dave Adrian Guevara", role:"Project Leader", quote:"Hard work beats talent."},
-  {img:"alena.jpg.png", name:"Alena Anele Lee Doqueza", role:"Content Editor", quote:"Knowledge is power."},
+  {img:"alena.jfif", name:"Alena Anele Lee Doqueza", role:"Content Editor", quote:"Knowledge is power."},
   {img:"pat.jpg", name:"James Patrick T. Miguel", role:"Web Developer/ UI/UX Designer", quote:"Creativity speaks louder than words."},
   {img:"mikee.jpg", name:"Mikee Jean Alfante Roquero", role:"Editor", quote:"Details make perfection."},
   {img:"troy.jpg.jpeg", name:"Troy Hiltone C. Palma", role:"Photo Editor/Photographer", quote:"Preserving moments forever."},
@@ -862,3 +862,4 @@ document.addEventListener("keydown", function(e){
 
 </body>
 </html>
+
