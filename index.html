@@ -496,7 +496,9 @@ footer{
   border-top:1px solid rgba(212,165,93,0.3);
   box-shadow:0 -8px 30px rgba(0,0,0,0.5);
 }
-
+.full-image{
+  object-fit:contain !important;
+}
 /* body after */
 </style>
 </head>
@@ -705,11 +707,18 @@ function updateModal(){
   const desc=document.getElementById("modalDesc");
 
   img.classList.remove("show");
+  img.classList.remove("full-image");
+  
 
   setTimeout(()=>{
     img.src=galleryData[currentIndex].img;
     title.innerText=galleryData[currentIndex].title;
     desc.innerText=galleryData[currentIndex].desc;
+
+    if(currentIndex === 3){
+      img.classList.add("full-image");
+    }
+
     img.classList.add("show");
   },200);
 }
@@ -861,6 +870,7 @@ document.addEventListener("keydown", function(e){
 
 </body>
 </html>
+
 
 
 
